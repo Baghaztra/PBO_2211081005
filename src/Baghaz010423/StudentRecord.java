@@ -16,6 +16,7 @@ public class StudentRecord{
     private double englishGrade;
     private double scienceGrade;
     private double average;
+    private char nilaihuruf;
     private static int studentCount; //class variabel
     //static bisa lansung diakses tanpa instance
     
@@ -100,7 +101,28 @@ public class StudentRecord{
     public void print(double eGrade, double mGrade, double sGrade){
         System.out.println("Name         : " + name);
         System.out.println("Math Grade   : " + mGrade);
+        mathGrade = mGrade; 
         System.out.println("English Grade: " + eGrade);
+        englishGrade = eGrade;
         System.out.println("Science Grade: " + sGrade);
+        scienceGrade = sGrade;
+        System.out.println("Avegare      : " + getAverage());
+        System.out.println("Nilai huruf  : " + nilaiHuruf());
+        
     } 
+    
+    //tambahan 060423
+    public char nilaiHuruf(){
+        if(getAverage() > 80)
+            nilaihuruf = 'A';
+        else if(getAverage() > 65)
+            nilaihuruf = 'B';
+        else if(getAverage() > 55)
+            nilaihuruf = 'C';
+        else if(getAverage() > 40)
+            nilaihuruf = 'D';
+        else if(getAverage() > 0)
+            nilaihuruf = 'E';
+        return nilaihuruf;
+    }
 }
