@@ -3,7 +3,6 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package Baghaz150423.view;
-import Baghaz150423.controller.PeminjamanController;
 import Baghaz150423.controller.PengembalianController;
 /**
  *
@@ -14,16 +13,14 @@ public class FormPeminjaman extends javax.swing.JFrame {
     /**
      * Creates new form FormPeminjaman
      */
-    PeminjamanController controller;
-    PengembalianController controller2;
+    
+    PengembalianController controller;
     public FormPeminjaman() {
         initComponents();
-        controller = new PeminjamanController(this);
-        controller2 = new PengembalianController(this);
+        controller = new PengembalianController(this);
         controller.cls();
-        controller2.cls();
         controller.isiCombo();
-        controller2.tampilData();
+        controller.tampilData();
     }
     
     public javax.swing.JComboBox getCboAnggota(){
@@ -233,31 +230,26 @@ public class FormPeminjaman extends javax.swing.JFrame {
 
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
-        controller.savePeminjaman();
-        controller2.savePengembalian();
-        controller2.tampilData();
+        controller.save();
+        controller.tampilData();
         controller.cls();
-        controller2.cls();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void tblPeminjamanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPeminjamanMouseClicked
         // TODO add your handling code here:
-        controller.getPeminjaman();
-        controller2.getPengembalian();
+        controller.get();
     }//GEN-LAST:event_tblPeminjamanMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
-        controller.updatePeminjaman();
-        controller2.updatePengembalian();
-        controller2.tampilData();
+        controller.update();
+        controller.tampilData();
         controller.cls();
-        controller2.cls();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
         // TODO add your handling code here:
-        controller.deletePeminjaman();
+        controller.delete();
         controller.tampilData();
         controller.cls();
     }//GEN-LAST:event_btnDeleteActionPerformed
@@ -265,7 +257,6 @@ public class FormPeminjaman extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         controller.cls();
-        controller2.cls();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

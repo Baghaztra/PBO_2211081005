@@ -17,15 +17,45 @@ public class PengembalianController {
     private PeminjamanDaoImpl peminjamanDao;
     private FormPeminjaman form;
     
+    private Peminjaman peminjaman;
+    
+    private AnggotaDao anggotaDao;
+    private BukuDao bukuDao;
+    
     public PengembalianController(FormPeminjaman form){
         this.form = form;
         pengembalianDao = new PengembalianDaoImpl();
         peminjamanDao = new PeminjamanDaoImpl();
+        anggotaDao = new AnggotaDaoImp1();
+        bukuDao = new BukuDaoImpl();
     }
     public void cls(){
+        form.getTxtTglpinjam().setText("");
+        form.getTxtTglkembali().setText("");
         form.getTxtDikembalikan().setText("");
     }
-    public void savePengembalian(){
+    public void isiCombo(){
+        List<Anggota> listAnggota = anggotaDao.getAll();
+        List<Buku> listBuku = bukuDao.getAll();
+        form.getCboAnggota().removeAllItems();
+        form.getCboBuku().removeAllItems();
+        
+        //isi
+        for(Anggota anggota : listAnggota){
+            form.getCboAnggota().addItem(anggota.getNobp());
+        }
+        for(Buku buku : listBuku){
+            form.getCboBuku().addItem(buku.getKode());
+        }
+    }
+    public void save(){
+        peminjaman = new Peminjaman();
+        peminjaman.setAnggota(anggotaDao.getAnggota(form.getCboAnggota().getSelectedIndex()));
+        peminjaman.setBuku(bukuDao.getBuku(form.getCboBuku().getSelectedIndex()));
+        peminjaman.setTglpinjam(form.getTxtTglpinjam().getText());
+        peminjaman.setTglkembali(form.getTxtTglkembali().getText());
+        peminjamanDao.save(peminjaman);
+        
         pengembalian = new Pengembalian();
         pengembalian.setDikembalikan(form.getTxtDikembalikan().getText());
         pengembalian.setTerlambat(form.getTxtTglkembali().getText());
@@ -33,16 +63,29 @@ public class PengembalianController {
         pengembalianDao.save(pengembalian);
         javax.swing.JOptionPane.showMessageDialog(form, "Saved");
     }
-    public void getPengembalian(){
+    public void get(){
         int index = form.getTblPeminjaman().getSelectedRow();
+        peminjaman = peminjamanDao.getPeminjaman(index);
+        if(peminjaman != null){
+            form.getCboAnggota().setSelectedItem(peminjaman.getAnggota().getNobp());
+            form.getCboBuku().setSelectedItem(peminjaman.getBuku().getKode());
+            form.getTxtTglpinjam().setText(peminjaman.getTglpinjam());
+            form.getTxtTglkembali().setText(peminjaman.getTglkembali());
+        }
         pengembalian = pengembalianDao.getPengembalian(index);
         if(pengembalian != null){
             form.getTxtDikembalikan().setText(pengembalian.getDikembalikan());
         }
     }
     
-    public void updatePengembalian(){
+    public void update(){
         int idx = form.getTblPeminjaman().getSelectedRow();
+        peminjaman.setAnggota(anggotaDao.getAnggota(form.getCboAnggota().getSelectedIndex()));
+        peminjaman.setBuku(bukuDao.getBuku(form.getCboBuku().getSelectedIndex()));
+        peminjaman.setTglpinjam(form.getTxtTglpinjam().getText());
+        peminjaman.setTglkembali(form.getTxtTglkembali().getText());
+        peminjamanDao.update(idx,peminjaman);
+        
         pengembalian.setDikembalikan(form.getTxtDikembalikan().getText());
         pengembalian.setTerlambat(form.getTxtTglkembali().getText());
         pengembalian.setDenda();
@@ -50,8 +93,9 @@ public class PengembalianController {
         javax.swing.JOptionPane.showMessageDialog(form, "Updated");
     }
     
-    public void deletePengembalian(){
+    public void delete(){
         int idx = form.getTblPeminjaman().getSelectedRow();
+        peminjamanDao.delete(idx);
         pengembalianDao.delete(idx);
         javax.swing.JOptionPane.showMessageDialog(form, "Deleted");
     }
