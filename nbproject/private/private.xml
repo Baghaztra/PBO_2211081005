@@ -3,7 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/BukuDaoImpl.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/controller/BukuController.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/Peminjaman.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/view/FormBuku.java</file>
             <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/controller/PeminjamanController.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/Pengembalian.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/AnggotaDaoImp1.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/Anggota.java</file>
             <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/view/FormPeminjaman.java</file>
             <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz150423/model/PeminjamanDaoImpl.java</file>
         </group>

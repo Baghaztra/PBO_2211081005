@@ -14,20 +14,47 @@ public class Pengembalian {
     private int terlambat;
     private double denda;
     
+    public Pengembalian(){}
+    
     public Pengembalian(String tglKembali,String dikembalikan){
         this.dikembalikan = dikembalikan;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         LocalDate deadline = LocalDate.parse(tglKembali, formatter);
-        LocalDate tanggalKirim = LocalDate.parse(this.dikembalikan, formatter);
+        LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
         
         //nyari terlambat
         terlambat = 0;
-        if (tanggalKirim.isAfter(deadline)) {
-            terlambat = tanggalKirim.compareTo(deadline);
+        if (tanggalKmbl.isAfter(deadline)) {
+            terlambat = tanggalKmbl.compareTo(deadline);
         }
         
         //nyari denda
-        denda = terlambat*500;
+        denda = (double)terlambat*500;
     }
-    // nanti saya lanjutkan, pak :v
+    
+    public String getDikembalikan(){
+        return dikembalikan;
+    }
+    public int getTerlambat(){
+        return terlambat;
+    }
+    public double getDenda(){
+        return denda;
+    }
+    public void setDikembalikan(String dikembalikan){
+        this.dikembalikan=dikembalikan;
+    }
+    public void setTerlambat(String tglKembali){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        LocalDate deadline = LocalDate.parse(tglKembali, formatter);
+        LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
+        
+        terlambat = 0;
+        if (tanggalKmbl.isAfter(deadline)) {
+            terlambat = tanggalKmbl.compareTo(deadline);
+        }
+    }
+    public void setDenda(){
+        denda = (double)terlambat*500;
+    }
 }
