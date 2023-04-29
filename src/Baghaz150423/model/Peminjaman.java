@@ -9,24 +9,24 @@ package Baghaz150423.model;
  * @author Bagas
  */
 public class Peminjaman {
-    private String nobp;
-    private String kodebuku;
+    private Anggota anggota;
+    private Buku buku;
     private String tglpinjam;
     private String tglkembali;
     
     public Peminjaman(){}
-    public Peminjaman(String nobp,String kodebuku,String tglpinjam,String tglkembali){
-        this.nobp = nobp;
-        this.kodebuku = kodebuku;
+    public Peminjaman(Anggota anggota,Buku buku,String tglpinjam,String tglkembali){
+        this.anggota = anggota;
+        this.buku = buku;
         this.tglpinjam = tglpinjam;
         this.tglkembali = tglkembali;
     }
     
-    public void setNobp(String nobp){
-        this.nobp = nobp;
+    public void setAnggota(Anggota anggota){
+        this.anggota = anggota;
     }
-    public void setKodebuku(String kodebuku){
-        this.kodebuku = kodebuku;
+    public void setBuku(Buku buku){
+        this.buku = buku;
     }
     public void setTglpinjam(String tglpinjam){
         this.tglpinjam = tglpinjam;
@@ -35,11 +35,11 @@ public class Peminjaman {
         this.tglkembali = tglkembali;
     }
     
-    public String getNobp(){
-        return nobp;
+    public Anggota getAnggota(){
+        return anggota;
     }
-    public String getKodebuku(){
-        return kodebuku;
+    public Buku getBuku(){
+        return buku;
     }
     public String getTglpinjam(){
         return tglpinjam;
