@@ -19,9 +19,11 @@ public class FormPeminjaman extends javax.swing.JFrame {
     public FormPeminjaman() {
         initComponents();
         controller = new PeminjamanController(this);
+        controller2 = new PengembalianController(this);
         controller.cls();
+        controller2.cls();
         controller.isiCombo();
-        controller.tampilData();
+        controller2.tampilData();
     }
     
     public javax.swing.JComboBox getCboAnggota(){
@@ -113,23 +115,23 @@ public class FormPeminjaman extends javax.swing.JFrame {
 
         tblPeminjaman.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "NoBP", "Nama", "Kode Buku", "tglPinjam", "tglKembali", "Dikembalikan", "Denda"
+                "NoBP", "Nama", "Kode Buku", "tglPinjam", "tglKembali", "Dikembalikan", "Terlambat", "Denda"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -232,20 +234,25 @@ public class FormPeminjaman extends javax.swing.JFrame {
     private void btnInsertActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnInsertActionPerformed
         // TODO add your handling code here:
         controller.savePeminjaman();
-        controller.tampilData();
+        controller2.savePengembalian();
+        controller2.tampilData();
         controller.cls();
+        controller2.cls();
     }//GEN-LAST:event_btnInsertActionPerformed
 
     private void tblPeminjamanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPeminjamanMouseClicked
         // TODO add your handling code here:
         controller.getPeminjaman();
+        controller2.getPengembalian();
     }//GEN-LAST:event_tblPeminjamanMouseClicked
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
         // TODO add your handling code here:
         controller.updatePeminjaman();
-        controller.tampilData();
+        controller2.updatePengembalian();
+        controller2.tampilData();
         controller.cls();
+        controller2.cls();
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -258,6 +265,7 @@ public class FormPeminjaman extends javax.swing.JFrame {
     private void btnCancelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancelActionPerformed
         // TODO add your handling code here:
         controller.cls();
+        controller2.cls();
     }//GEN-LAST:event_btnCancelActionPerformed
 
     /**

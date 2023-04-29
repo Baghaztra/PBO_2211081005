@@ -5,7 +5,8 @@
 package Baghaz150423.controller;
 import Baghaz150423.view.FormPeminjaman;
 import Baghaz150423.model.*;
-//import javax.swing.table.DefaultTableModel;
+import javax.swing.table.DefaultTableModel;
+import java.util.*;
 /**
  *
  * @author Bagas
@@ -13,11 +14,13 @@ import Baghaz150423.model.*;
 public class PengembalianController {
     private Pengembalian pengembalian;
     private PengembalianDao pengembalianDao;
+    private PeminjamanDaoImpl peminjamanDao;
     private FormPeminjaman form;
     
     public PengembalianController(FormPeminjaman form){
         this.form = form;
         pengembalianDao = new PengembalianDaoImpl();
+        peminjamanDao = new PeminjamanDaoImpl();
     }
     public void cls(){
         form.getTxtDikembalikan().setText("");
@@ -52,20 +55,40 @@ public class PengembalianController {
         pengembalianDao.delete(idx);
         javax.swing.JOptionPane.showMessageDialog(form, "Deleted");
     }
-    /*
-    public void tampilData(){
+    
+    public void tampilData() {
         DefaultTableModel tabelModel =
                 (DefaultTableModel) form.getTblPeminjaman().getModel();
         tabelModel.setRowCount(0);
-        java.util.List<Pengembalian> list = pengembalianDao.getAll();
-        for(Pengembalian peminjaman : list){
+
+        // Mengambil data dari dua tabel
+        java.util.List<Pengembalian> listPengembalian = pengembalianDao.getAll();
+        java.util.List<Peminjaman> listPeminjaman = peminjamanDao.getAll();
+
+        // Menambahkan data dari kedua tabel ke dalam satu list
+        List<Object[]> dataGabungan = new ArrayList<>();
+        for (int i = 0; i < listPeminjaman.size(); i++) {
+            Peminjaman peminjaman = listPeminjaman.get(i);
+            Pengembalian pengembalian = null;
+            if (i < listPengembalian.size()) {
+                pengembalian = listPengembalian.get(i);
+            }
             Object[] data = {
-                peminjaman.getDikembalikan(),
-                peminjaman.getTerlambat(),
-                peminjaman.getDenda()
+                peminjaman.getAnggota().getNobp(),
+                peminjaman.getAnggota().getNama(),
+                peminjaman.getBuku().getKode(),
+                peminjaman.getTglpinjam(),
+                peminjaman.getTglkembali(),
+                (pengembalian == null) ? "" : pengembalian.getDikembalikan(),
+                (pengembalian == null) ? "" : pengembalian.getTerlambat(),
+                (pengembalian == null) ? "" : pengembalian.getDenda()
             };
+            dataGabungan.add(data);
+        }
+
+        // Menambahkan data ke dalam tabel
+        for (Object[] data : dataGabungan) {
             tabelModel.addRow(data);
         }
     }
-    */
 }

@@ -14,7 +14,8 @@ import java.util.List;
 public class PengembalianDaoImpl implements PengembalianDao{
     List<Pengembalian> data = new ArrayList<>();
     public PengembalianDaoImpl(){
-        data.add(new Pengembalian("27/04/2023","29/04/2023"));
+        PeminjamanDaoImpl data1 = new PeminjamanDaoImpl();
+        data.add(new Pengembalian(data1.getPeminjaman(0).getTglkembali(),"29/04/2023"));
     }
     public void save(Pengembalian pengembalian){
         data.add(pengembalian);
