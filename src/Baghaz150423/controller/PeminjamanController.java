@@ -86,6 +86,7 @@ public class PeminjamanController {
         for(Peminjaman peminjaman : list){
             Object[] data = {
                 peminjaman.getAnggota().getNobp(),
+                peminjaman.getAnggota().getNama(),
                 peminjaman.getBuku().getKode(),
                 peminjaman.getTglpinjam(),
                 peminjaman.getTglkembali()
