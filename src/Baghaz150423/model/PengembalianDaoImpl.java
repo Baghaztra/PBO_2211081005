@@ -16,6 +16,7 @@ public class PengembalianDaoImpl implements PengembalianDao{
     public PengembalianDaoImpl(){
         PeminjamanDaoImpl data1 = new PeminjamanDaoImpl();
         data.add(new Pengembalian(data1.getPeminjaman(0).getTglkembali(),"29/04/2023"));
+        data.add(new Pengembalian("",""));
     }
     public void save(Pengembalian pengembalian){
         data.add(pengembalian);

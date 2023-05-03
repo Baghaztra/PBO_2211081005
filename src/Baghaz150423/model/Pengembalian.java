@@ -13,48 +13,71 @@ public class Pengembalian {
     private String dikembalikan;
     private int terlambat;
     private double denda;
+    private String strterlambat;
+    private String strdenda;
     
     public Pengembalian(){}
     
     public Pengembalian(String tglKembali,String dikembalikan){
         this.dikembalikan = dikembalikan;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate deadline = LocalDate.parse(tglKembali, formatter);
-        LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
-        
-        //nyari terlambat
-        terlambat = 0;
-        if (tanggalKmbl.isAfter(deadline)) {
-            terlambat = tanggalKmbl.compareTo(deadline);
+        try{
+            LocalDate deadline = LocalDate.parse(tglKembali, formatter);
+            LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
+
+            //nyari terlambat
+            terlambat = 0;
+            if (tanggalKmbl.isAfter(deadline)) {
+                terlambat = tanggalKmbl.compareTo(deadline);
+            }
+            strterlambat = ""+terlambat;
+
+            //nyari denda
+            denda = (double)terlambat*500;
+            strdenda = ""+ denda;
+        }catch(Exception e){
+            strterlambat = "";
+            terlambat = -1;
+            strdenda = "";
+            denda = -1;
         }
-        
-        //nyari denda
-        denda = (double)terlambat*500;
     }
     
     public String getDikembalikan(){
         return dikembalikan;
     }
-    public int getTerlambat(){
-        return terlambat;
+    public String getTerlambat(){
+        return strterlambat;
     }
-    public double getDenda(){
-        return denda;
+    public String getDenda(){
+        return strdenda;
     }
     public void setDikembalikan(String dikembalikan){
         this.dikembalikan=dikembalikan;
     }
     public void setTerlambat(String tglKembali){
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        LocalDate deadline = LocalDate.parse(tglKembali, formatter);
-        LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
-        
-        terlambat = 0;
-        if (tanggalKmbl.isAfter(deadline)) {
-            terlambat = tanggalKmbl.compareTo(deadline);
+        try{
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            LocalDate deadline = LocalDate.parse(tglKembali, formatter);
+            LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
+
+            terlambat = 0;
+            if (tanggalKmbl.isAfter(deadline)) {
+                terlambat = tanggalKmbl.compareTo(deadline);
+            }
+            strterlambat = String.valueOf(terlambat);
+        }catch(Exception e){
+            terlambat = -1;
+            strterlambat = "";
         }
     }
     public void setDenda(){
-        denda = (double)terlambat*500;
+        if(terlambat != -1){
+            denda = (double)terlambat*500;
+            strdenda = "" + denda;
+        }else{
+            denda = -1;
+            strdenda = "";
+        }
     }
 }
