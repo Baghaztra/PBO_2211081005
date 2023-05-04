@@ -19,9 +19,9 @@ public class Pengembalian {
     public Pengembalian(){}
     
     public Pengembalian(String tglKembali,String dikembalikan){
-        this.dikembalikan = dikembalikan;
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         try{
+            this.dikembalikan = dikembalikan;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
             LocalDate deadline = LocalDate.parse(tglKembali, formatter);
             LocalDate tanggalKmbl = LocalDate.parse(this.dikembalikan, formatter);
 
@@ -36,6 +36,7 @@ public class Pengembalian {
             denda = (double)terlambat*500;
             strdenda = ""+ denda;
         }catch(Exception e){
+            this.dikembalikan = "Belum dikembalikan";
             strterlambat = "";
             terlambat = -1;
             strdenda = "";
@@ -53,7 +54,14 @@ public class Pengembalian {
         return strdenda;
     }
     public void setDikembalikan(String dikembalikan){
-        this.dikembalikan=dikembalikan;
+        try{
+            this.dikembalikan = dikembalikan;
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            //mengetes apakah tanggal valid
+            LocalDate coba = LocalDate.parse(dikembalikan, formatter);
+        }catch(Exception e){
+            this.dikembalikan = "Belum dikembalikan";
+        }
     }
     public void setTerlambat(String tglKembali){
         try{
