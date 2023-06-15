@@ -6,6 +6,8 @@ package Baghaz.dao;
 
 import Baghaz.model.Anggota;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 /**
  *
  * @author Bagas
@@ -29,7 +31,8 @@ public class AnggotaDaoImpl implements AnggotaDao{
     }
     
     public void update(String kode, Anggota anggota) throws Exception {
-        String sql = "UPDATE anggota SET kodeanggota = ?, namaanggota = ?, alamat = ?, jeniskelamin = ? WHERE kodeanggota =?";
+        String sql = "UPDATE anggota SET kodeanggota = ?, namaanggota = ?, alamat = ?,"
+                + " jeniskelamin = ? WHERE kodeanggota =?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, anggota.getKodeAnggota());
         ps.setString(2, anggota.getNamaAnggota());
@@ -45,5 +48,38 @@ public class AnggotaDaoImpl implements AnggotaDao{
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.executeUpdate();
         ps.close();
+    }
+    
+    public Anggota getAnggota(String kode) throws Exception{
+        String sql = "SELECT * FROM anggota WHERE kodeanggota = ?";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, kode);
+        ResultSet rs = ps.executeQuery();
+        Anggota anggota = null;
+        if(rs.next()){
+            anggota = new Anggota();
+            anggota.setKodeAnggota(rs.getString(1));
+            anggota.setNamaAnggota(rs.getString(2));
+            anggota.setAlamat(rs.getString(3));
+            anggota.setJenisKelamin(rs.getString(4));
+        }
+        return anggota;
+    }
+    
+    public List<Anggota> getAll() throws Exception{
+        String sql = "SELECT * FROM anggota";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ResultSet rs = ps.executeQuery();
+        Anggota anggota;
+        List<Anggota> list = new ArrayList<>();
+        while(rs.next()){
+            anggota = new Anggota();
+            anggota.setKodeAnggota(rs.getString(1));
+            anggota.setNamaAnggota(rs.getString(2));
+            anggota.setAlamat(rs.getString(3));
+            anggota.setJenisKelamin(rs.getString(4));
+            list.add(anggota);
+        }
+        return list;
     }
 }

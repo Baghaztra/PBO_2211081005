@@ -12,8 +12,8 @@ import Baghaz.model.Anggota;
  */
 public interface AnggotaDao {
     void insert(Anggota anggota) throws Exception;
-    void update(String index, Anggota anggota) throws Exception;
-    void delete(String index) throws Exception;
-//    Anggota getAnggota(int index);
-//    List<Anggota> getAll();
+    void update(String kode, Anggota anggota) throws Exception;
+    void delete(String kode) throws Exception;
+    Anggota getAnggota(String kode) throws Exception;
+    List<Anggota> getAll() throws Exception;
 }
