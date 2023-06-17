@@ -25,7 +25,6 @@ public class AnggotaController {
     private AnggotaDao anggotaDao;
     private Connection con;
     private FormAnggota form;
-//    private String nip;
     
     
     public AnggotaController(FormAnggota form) {

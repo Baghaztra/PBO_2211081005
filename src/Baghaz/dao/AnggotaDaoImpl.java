@@ -43,8 +43,9 @@ public class AnggotaDaoImpl implements AnggotaDao{
     }
     
     public void delete(Anggota anggota) throws Exception{
-        String sql = "DELETE FROM anggota WHERE kodeanggota = "+anggota.getKodeAnggota();
+        String sql = "DELETE FROM anggota WHERE kodeanggota = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, anggota.getKodeAnggota());
         ps.executeUpdate();
         ps.close();
     }
