@@ -3,12 +3,8 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/view/FormBuku.java</file>
             <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/controller/BukuController.java</file>
-            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/db/DbHelper.java</file>
-            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/dao/AnggotaDaoImpl.java</file>
-            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/dao/BukuDaoImpl.java</file>
-            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/model/Buku.java</file>
+            <file>file:/C:/Kuliah/Semester2/PBO/PBO_2211081005/src/Baghaz/view/FormPeminjaman.java</file>
         </group>
     </open-files>
 </project-private>
