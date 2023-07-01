@@ -23,7 +23,7 @@ public class PengembalianDaoImpl implements PengembalianDao{
     }
     
     public void insert(Pengembalian pengembalian) throws Exception{
-        String sql = "INSERT INTO pengembalian values(?,?,?,?,?)";
+        String sql = "INSERT INTO pengembalian values(?,?,?,?,?,?)";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, pengembalian.getKodeAnggota());
         ps.setString(2, pengembalian.getKodeBuku());
@@ -36,22 +36,22 @@ public class PengembalianDaoImpl implements PengembalianDao{
     }
     
     public void update(Pengembalian pengembalian) throws Exception {
-        String sql = "UPDATE pengembalian SET terlambat = ?, denda = ?"
-                + "WHERE kodeAnggota = ? && kodeBuku = ? && tglPinjam = ? && tglDikembalikan";
+        String sql = "UPDATE pengembalian SET terlambat = ?, denda = ?, tglDikembalikan = ?"
+                + "WHERE kodeAnggota = ? && kodeBuku = ? && tglPinjam = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, ""+pengembalian.getTerlambat());
         ps.setString(2, ""+pengembalian.getDenda());
-        ps.setString(3, pengembalian.getKodeAnggota());
-        ps.setString(4, pengembalian.getKodeBuku());
-        ps.setString(5, pengembalian.getTglPinjam());
-        ps.setString(6, pengembalian.getTglDikembalikan());
+        ps.setString(4, pengembalian.getKodeAnggota());
+        ps.setString(5, pengembalian.getKodeBuku());
+        ps.setString(6, pengembalian.getTglPinjam());
+        ps.setString(3, pengembalian.getTglDikembalikan());
         ps.executeUpdate();
         ps.close();
     }
     
     public void delete(Pengembalian pengembalian) throws Exception{
         String sql = "DELETE FROM pengembalian WHERE kodeAnggota = ? && kodeBuku = ? "
-                + "&& tglPinjam = ? && tglDikembalikan";
+                + "&& tglPinjam = ? && tglDikembalikan = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, pengembalian.getKodeAnggota());
         ps.setString(2, pengembalian.getKodeBuku());
@@ -62,7 +62,7 @@ public class PengembalianDaoImpl implements PengembalianDao{
     }
     
     public Pengembalian getPengembalian(String kodeAnggota,String kodeBuku, String tglPinjam, String tglDikembalikan) throws Exception{
-        String sql = "SELECT * FROM pengembalian WHERE kodeAnggota = ? && kodeBuku = ? && tglPinjam = ? && tglDikembalikan";
+        String sql = "SELECT * FROM pengembalian WHERE kodeAnggota = ? && kodeBuku = ? && tglPinjam = ? && tglDikembalikan = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, kodeAnggota);
         ps.setString(2, kodeBuku);
@@ -81,7 +81,22 @@ public class PengembalianDaoImpl implements PengembalianDao{
     }
     
     public List<Pengembalian> getAll() throws Exception{
-        String sql = "SELECT * FROM pengembalian";
+//        String sql = "SELECT * FROM pengembalian";
+//        String sql =
+//                "SELECT anggota.kodeAnggota, buku.kodeBuku, peminjaman.tglPinjam, pengembalian.tglDikembalikan "
+//                + "FROM anggota join peminjaman using(kodeanggota) join buku using(kodebuku) join pengembalian"
+//                + "ON pengembalian.kodeanggota = peminjaman.kodeanggota && pengembalian.kodebuku = peminjaman.kodebuku && "
+//                + "pengembalian.tglpinjam = peminjaman.tglpinjam ";
+        String sql = "SELECT "
+                + "anggota.kodeAnggota, buku.kodeBuku, "
+                + "peminjaman.tglPinjam, "
+                + "IFNULL(pengembalian.tglDikembalikan, \"\"), "
+                + "peminjaman.tglKembali "
+                + "FROM anggota RIGHT JOIN peminjaman USING(kodeanggota) "
+                + "LEFT JOIN buku USING(kodebuku) LEFT JOIN pengembalian "
+                + "ON peminjaman.kodeanggota = pengembalian.kodeanggota && "
+                + "peminjaman.kodebuku = pengembalian.kodebuku && "
+                + "peminjaman.tglpinjam = pengembalian.tglpinjam";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
         Pengembalian pengembalian;
@@ -92,8 +107,27 @@ public class PengembalianDaoImpl implements PengembalianDao{
             pengembalian.setKodeBuku(rs.getString(2));
             pengembalian.setTglPinjam(rs.getString(3));
             pengembalian.setTglDikembalikan(rs.getString(4));
+            try{
+                pengembalian.setTerlambat(rs.getString(5));
+            }catch(Exception e){
+                System.out.println("Belum dikembalikan");
+            }
+            pengembalian.setDenda();
             list.add(pengembalian);
         }
         return list;
+    }
+    
+    public int selisihTanggal(String tgl1, String tgl2) throws Exception{
+        int selisih = 0;
+        String sql = "SELECT DATEDIFF(?,?) as selisih";
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, tgl1);
+        ps.setString(2, tgl2);
+        ResultSet rs = ps.executeQuery();
+        if(rs.next()){
+            selisih = rs.getInt(1);
+        }
+        return selisih;
     }
 }

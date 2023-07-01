@@ -48,7 +48,7 @@ public class Pengembalian {
 
     public void setTerlambat(String tglKembali) {
         try{
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-mm-dd");
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
             LocalDate deadline = LocalDate.parse(tglKembali, formatter);
             LocalDate dikembalikan = LocalDate.parse(this.tglDikembalikan, formatter);
 
@@ -57,8 +57,9 @@ public class Pengembalian {
                 terlambat = (int) ChronoUnit.DAYS.between(deadline, dikembalikan);
             }
         }catch(Exception e){
-            JOptionPane.showMessageDialog(null, e);
-            terlambat = -1;
+            //JOptionPane.showMessageDialog(null, e);
+            tglDikembalikan = "Belum dikembalikan";
+            terlambat = 0;
         }
     }
 

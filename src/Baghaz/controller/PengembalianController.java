@@ -29,6 +29,8 @@ public class PengembalianController {
     private BukuDao bukuDao;
     private Connection con;
     private FormPengembalian form;
+    private Peminjaman peminjaman;
+    private PeminjamanDao peminjamanDao;
     
     
     public PengembalianController(FormPengembalian form) {
@@ -39,111 +41,151 @@ public class PengembalianController {
             anggotaDao = new AnggotaDaoImpl(con);
             bukuDao = new BukuDaoImpl(con);
             pengembalian = new Pengembalian();
+            peminjamanDao = new PeminjamanDaoImpl(con);
         } catch (SQLException ex) {
             Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
     
-//    public void clear(){
-//        try {
-//            form.getTxtTglPinjam().setText("yyyy-mm-dd");
-//            form.getTxtTglKembali().setText("yyyy-mm-dd");
-//            
-//            List<Anggota> listAnggota = anggotaDao.getAll();
-//            form.getCboAnggota().removeAllItems();
-//            for(Anggota anggota : listAnggota){
-//                form.getCboAnggota().addItem(anggota.getKodeAnggota());
-//            }
-//            form.getCboAnggota().setSelectedIndex(0);
-//            
-//            List<Buku> listBuku = bukuDao.getAll();
-//            form.getCboBuku().removeAllItems();
-//            for(Buku buku : listBuku){
-//                form.getCboBuku().addItem(buku.getKodeBuku());
-//            }
-//            form.getCboBuku().setSelectedIndex(0);
-//        } catch (Exception ex) {
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    
-//    public void get(){
-//        try {
-//            String kodeA = form.getTblpengembalian().getValueAt(form.getTblpengembalian().getSelectedRow(), 0).toString();
-//            String kodeB = form.getTblpengembalian().getValueAt(form.getTblpengembalian().getSelectedRow(), 2).toString();
-//            String tglPi = form.getTblpengembalian().getValueAt(form.getTblpengembalian().getSelectedRow(), 4).toString();
-//            pengembalian = pengembalianDao.getpengembalian(kodeA,kodeB,tglPi);
-//            form.getCboAnggota().setSelectedItem(pengembalian.getKodeAnggota());
-//            form.getCboBuku().setSelectedItem(pengembalian.getKodeBuku());
-//            form.getTxtTglPinjam().setText(pengembalian.getTglPinjam());
-//            form.getTxtTglKembali().setText(pengembalian.getTglKembali());
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(form, e);
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, e);
-//        }
-//    }
-//    
-//    public void insert(){
-//        try {
-//            pengembalian = new pengembalian();
-//            pengembalian.setKodeAnggota(form.getCboAnggota().getSelectedItem().toString());
-//            pengembalian.setKodeBuku(form.getCboBuku().getSelectedItem().toString());
-//            pengembalian.setTglPinjam(form.getTxtTglPinjam().getText());
-//            pengembalian.setTglKembali(form.getTxtTglKembali().getText());
-//            pengembalianDao.insert(pengembalian);
-//            JOptionPane.showMessageDialog(form, "Insert Ok!");
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(form, ex.getMessage());
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    
-//    public void update(){
-//        try {
-//            pengembalian.setKodeAnggota(form.getCboAnggota().getSelectedItem().toString());
-//            pengembalian.setKodeBuku(form.getCboBuku().getSelectedItem().toString());
-//            pengembalian.setTglPinjam(form.getTxtTglPinjam().getText());
-//            pengembalian.setTglKembali(form.getTxtTglKembali().getText());
-//            pengembalianDao.update(pengembalian);
-//            JOptionPane.showMessageDialog(form, "Update Ok!");
-//        } catch (Exception ex) {
-//            JOptionPane.showMessageDialog(form, ex.getMessage());
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    
-//    public void delete(){
-//        try {
-//            pengembalianDao.delete(pengembalian);
-//            JOptionPane.showMessageDialog(form, "Delete OK!");
-//        } catch (Exception ex) {
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-//    
-//    public void display(){
-//        try {
-//            Connection connection = DbHelper.getConnection();
-//            DefaultTableModel tableModel = (DefaultTableModel) form.getTblpengembalian().getModel();
-//            tableModel.setRowCount(0);
-//            String sql = "SELECT kodeAnggota,  namaAnggota, kodeBuku, judulBuku, tglPinjam, tglKembali "
-//                + "FROM pengembalian JOIN buku USING(kodeBuku) JOIN anggota USING(kodeAnggota)";
-//            PreparedStatement ps = connection.prepareStatement(sql);
-//            ResultSet rs = ps.executeQuery();
-//
-//            while(rs.next()){
-//                Object[] data = {
-//                    rs.getString(1),
-//                    rs.getString(2),
-//                    rs.getString(3),
-//                    rs.getString(4),
-//                    rs.getString(5),
-//                    rs.getString(6)
-//                };
-//                tableModel.addRow(data);
-//            }
-//        } catch (Exception ex) {
-//            Logger.getLogger(pengembalianController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
+    public void clear(){
+        try {
+            //form.getTxtTglPinjam().setText("yyyy-mm-dd");
+            form.getTxtTglDikembalikan().setText("yyyy-mm-dd");
+            
+            List<Anggota> listAnggota = anggotaDao.getAll();
+            form.getCboAnggota().removeAllItems();
+            for(Anggota anggota : listAnggota){
+                form.getCboAnggota().addItem(anggota.getKodeAnggota());
+            }
+            form.getCboAnggota().setSelectedIndex(0);
+            
+            List<Buku> listBuku = bukuDao.getAll();
+            form.getCboBuku().removeAllItems();
+            for(Buku buku : listBuku){
+                form.getCboBuku().addItem(buku.getKodeBuku());
+            }
+            form.getCboBuku().setSelectedIndex(0);
+            
+            List<Peminjaman> listPinjam = peminjamanDao.getAll();
+            form.getCboPeminjaman().removeAllItems();
+            for(Peminjaman peminjaman : listPinjam){
+                form.getCboPeminjaman().addItem(peminjaman.getTglPinjam());
+            }
+            form.getCboBuku().setSelectedIndex(0);
+        } catch (Exception ex) {
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void get(){
+        try {
+            String kodeA = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 0).toString();
+            String kodeB = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 1).toString();
+            String tglPi = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 2).toString();
+            String tglDk = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 4).toString();
+            pengembalian = pengembalianDao.getPengembalian(kodeA,kodeB,tglPi,tglDk);
+            form.getCboAnggota().setSelectedItem(pengembalian.getKodeAnggota());
+            form.getCboBuku().setSelectedItem(pengembalian.getKodeBuku());
+            form.getCboPeminjaman().setSelectedItem(pengembalian.getTglPinjam());
+            form.getTxtTglDikembalikan().setText(pengembalian.getTglDikembalikan());
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(form, "Get row error\n"+e);
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, e);
+        }
+    }
+    
+    public void insert(){
+        try {
+            pengembalian = new Pengembalian();
+            pengembalian.setKodeAnggota(form.getCboAnggota().getSelectedItem().toString());
+            pengembalian.setKodeBuku(form.getCboBuku().getSelectedItem().toString());
+            pengembalian.setTglPinjam(form.getCboPeminjaman().getSelectedItem().toString());
+            pengembalian.setTglDikembalikan(form.getTxtTglDikembalikan().getText());
+            peminjaman = peminjamanDao.getPeminjaman(
+                    form.getCboAnggota().getSelectedItem().toString(),
+                    form.getCboBuku().getSelectedItem().toString(), 
+                    form.getCboPeminjaman().getSelectedItem().toString());
+            pengembalian.setTerlambat(peminjaman.getTglKembali());
+            pengembalian.setDenda();
+            pengembalianDao.insert(pengembalian);
+            JOptionPane.showMessageDialog(form, "Insert Ok!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(form, "Insert error \n"+ex.getMessage());
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void update(){
+        try {
+            pengembalian.setKodeAnggota(form.getCboAnggota().getSelectedItem().toString());
+            pengembalian.setKodeBuku(form.getCboBuku().getSelectedItem().toString());
+            pengembalian.setTglPinjam(form.getCboPeminjaman().getSelectedItem().toString());
+            pengembalian.setTglDikembalikan(form.getTxtTglDikembalikan().getText());
+            peminjaman = peminjamanDao.getPeminjaman(
+                    form.getCboAnggota().getSelectedItem().toString(),
+                    form.getCboBuku().getSelectedItem().toString(), 
+                    form.getCboPeminjaman().getSelectedItem().toString());
+            pengembalian.setTerlambat(peminjaman.getTglKembali());
+            pengembalian.setDenda();
+            pengembalianDao.update(pengembalian);
+            JOptionPane.showMessageDialog(form, "Update Ok!");
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(form, ex.getMessage());
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void delete(){
+        try {
+            pengembalianDao.delete(pengembalian);
+            JOptionPane.showMessageDialog(form, "Delete OK!");
+        } catch (Exception ex) {
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void display(){
+        try {
+            DefaultTableModel tableModel = (DefaultTableModel) form.getTblPengembalian().getModel();
+            tableModel.setRowCount(0);
+            List<Pengembalian> list = pengembalianDao.getAll();
+            for(Pengembalian pengembalian : list) {
+                Anggota anggota = anggotaDao.getAnggota(pengembalian.getKodeAnggota());
+                Buku buku = bukuDao.getBuku(pengembalian.getKodeBuku());
+                Peminjaman peminjaman = peminjamanDao.getPeminjaman(
+                    pengembalian.getKodeAnggota(),
+                    pengembalian.getKodeBuku(), 
+                    pengembalian.getTglPinjam());
+                Object[] data;
+                if(pengembalian.getTglDikembalikan().equals("Belum dikembalikan")){
+                    data = new Object[]{
+                        anggota.getKodeAnggota(),
+    //                    anggota.getNamaAnggota(),
+                        buku.getKodeBuku(),
+    //                    buku.getJudulBuku(),
+                        peminjaman.getTglPinjam(),
+                        peminjaman.getTglKembali(),
+                        pengembalian.getTglDikembalikan(),
+                        "",
+                        ""
+                    };
+                }else{
+                    data = new Object[]{
+                        anggota.getKodeAnggota(),
+    //                    anggota.getNamaAnggota(),
+                        buku.getKodeBuku(),
+    //                    buku.getJudulBuku(),
+                        peminjaman.getTglPinjam(),
+                        peminjaman.getTglKembali(),
+                        pengembalian.getTglDikembalikan(),
+                        pengembalian.getTerlambat(),
+                        pengembalian.getDenda()
+                    };
+                }
+                tableModel.addRow(data);
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
