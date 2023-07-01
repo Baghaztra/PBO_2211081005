@@ -83,11 +83,19 @@ public class PengembalianController {
             String kodeB = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 1).toString();
             String tglPi = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 2).toString();
             String tglDk = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 4).toString();
-            pengembalian = pengembalianDao.getPengembalian(kodeA,kodeB,tglPi,tglDk);
-            form.getCboAnggota().setSelectedItem(pengembalian.getKodeAnggota());
-            form.getCboBuku().setSelectedItem(pengembalian.getKodeBuku());
-            form.getCboPeminjaman().setSelectedItem(pengembalian.getTglPinjam());
-            form.getTxtTglDikembalikan().setText(pengembalian.getTglDikembalikan());
+            try{
+                pengembalian = pengembalianDao.getPengembalian(kodeA,kodeB,tglPi,tglDk);
+                form.getCboAnggota().setSelectedItem(pengembalian.getKodeAnggota());
+                form.getCboBuku().setSelectedItem(pengembalian.getKodeBuku());
+                form.getCboPeminjaman().setSelectedItem(pengembalian.getTglPinjam());
+                form.getTxtTglDikembalikan().setText(pengembalian.getTglDikembalikan());
+            }catch(Exception e){
+                peminjaman = peminjamanDao.getPeminjaman(kodeA, kodeB, tglPi);
+                form.getCboAnggota().setSelectedItem(peminjaman.getKodeAnggota());
+                form.getCboBuku().setSelectedItem(peminjaman.getKodeBuku());
+                form.getCboPeminjaman().setSelectedItem(peminjaman.getTglPinjam());
+                form.getTxtTglDikembalikan().setText("yyyy-mm-dd");
+            }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(form, "Get row error\n"+e);
             Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, e);
