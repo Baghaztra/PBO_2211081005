@@ -72,6 +72,13 @@ public class PengembalianController {
                 form.getCboPeminjaman().addItem(peminjaman.getTglPinjam());
             }
             form.getCboBuku().setSelectedIndex(0);
+            
+            form.getCboPilih().removeAllItems();
+            form.getCboPilih().addItem("kodeBuku");
+            form.getCboPilih().addItem("kodeAnggota");
+            form.getCboPilih().setSelectedIndex(0);
+            
+            form.getTxtCari().setText("");
         } catch (Exception ex) {
             Logger.getLogger(PengembalianController.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -156,7 +163,9 @@ public class PengembalianController {
         try {
             DefaultTableModel tableModel = (DefaultTableModel) form.getTblPengembalian().getModel();
             tableModel.setRowCount(0);
-            List<Pengembalian> list = pengembalianDao.getAll();
+            String kategori = form.getCboPilih().getSelectedItem().toString();
+            String cari = form.getTxtCari().getText();
+            List<Pengembalian> list = pengembalianDao.getAll(kategori,cari);
             for(Pengembalian pengembalian : list) {
                 Anggota anggota = anggotaDao.getAnggota(pengembalian.getKodeAnggota());
                 Buku buku = bukuDao.getBuku(pengembalian.getKodeBuku());

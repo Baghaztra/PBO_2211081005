@@ -8,6 +8,7 @@ import javax.swing.JComboBox;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import Baghaz.controller.PengembalianController;
+import javax.swing.JOptionPane;
 /**
  *
  * @author Bagas
@@ -45,10 +46,16 @@ public class FormPengembalian extends javax.swing.JFrame {
         return cboPeminjaman;
     }
 
+    public JComboBox<String> getCboPilih() {
+        return cboPilih;
+    }
+
+    public JTextField getTxtCari() {
+        return txtCari;
+    }
+
 
     
-    
-
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -73,6 +80,9 @@ public class FormPengembalian extends javax.swing.JFrame {
         cboBuku = new javax.swing.JComboBox<>();
         txtTglDikembalikan = new javax.swing.JTextField();
         cboPeminjaman = new javax.swing.JComboBox<>();
+        txtCari = new javax.swing.JTextField();
+        jButton6 = new javax.swing.JButton();
+        cboPilih = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -176,6 +186,17 @@ public class FormPengembalian extends javax.swing.JFrame {
             }
         });
 
+        txtCari.setText("jTextField1");
+
+        jButton6.setText("Cari");
+        jButton6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton6ActionPerformed(evt);
+            }
+        });
+
+        cboPilih.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -206,7 +227,13 @@ public class FormPengembalian extends javax.swing.JFrame {
                         .addComponent(jButton4)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton5)
-                        .addGap(0, 15, Short.MAX_VALUE)))
+                        .addGap(0, 15, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(cboPilih, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, 228, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jButton6, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -236,7 +263,12 @@ public class FormPengembalian extends javax.swing.JFrame {
                     .addComponent(jButton4)
                     .addComponent(jButton5))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtCari, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton6)
+                    .addComponent(cboPilih, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -260,6 +292,11 @@ public class FormPengembalian extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
+        int i = JOptionPane.showConfirmDialog(rootPane,"Tutup form","Keluar?",
+                JOptionPane.YES_NO_OPTION);
+        if(i == 0){
+            this.dispose();
+        }
     }//GEN-LAST:event_jButton5ActionPerformed
 
     private void cboBukuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboBukuActionPerformed
@@ -305,6 +342,12 @@ public class FormPengembalian extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_txtTglDikembalikanFocusGained
 
+    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
+        // TODO add your handling code here:
+        con.display();
+        con.clear();
+    }//GEN-LAST:event_jButton6ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -344,17 +387,20 @@ public class FormPengembalian extends javax.swing.JFrame {
     private javax.swing.JComboBox<String> cboAnggota;
     private javax.swing.JComboBox<String> cboBuku;
     private javax.swing.JComboBox<String> cboPeminjaman;
+    private javax.swing.JComboBox<String> cboPilih;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable tblPengembalian;
+    private javax.swing.JTextField txtCari;
     private javax.swing.JTextField txtTglDikembalikan;
     // End of variables declaration//GEN-END:variables
 }

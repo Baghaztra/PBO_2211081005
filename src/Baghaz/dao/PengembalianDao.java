@@ -17,5 +17,6 @@ public interface PengembalianDao {
     void delete(Pengembalian pengembalian) throws Exception;
     Pengembalian getPengembalian(String kodeAnggota,String kodeBuku, String tglPinjam, String tglDikembalikan) throws Exception;
     List<Pengembalian> getAll() throws Exception;
+    List<Pengembalian> getAll(String kategori, String cari) throws Exception;
     int selisihTanggal(String tgl1, String tgl2) throws Exception;
 }

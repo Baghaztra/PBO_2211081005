@@ -5,6 +5,7 @@
 package Baghaz.dao;
 
 import Baghaz.model.Pengembalian;
+import Baghaz.view.FormPengembalian;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -97,7 +98,47 @@ public class PengembalianDaoImpl implements PengembalianDao{
                 + "ON peminjaman.kodeanggota = pengembalian.kodeanggota && "
                 + "peminjaman.kodebuku = pengembalian.kodebuku && "
                 + "peminjaman.tglpinjam = pengembalian.tglpinjam";
+//                + "WHERE ? LIKE \'%"
+//                + form.getTxtCari()
+//                + "%\'";
+
         PreparedStatement ps = connection.prepareStatement(sql);
+//        ps.setString(1, form.getCboPilih().getSelectedItem().toString());
+        ResultSet rs = ps.executeQuery();
+        Pengembalian pengembalian;
+        List<Pengembalian> list = new ArrayList<>();
+        while(rs.next()){
+            pengembalian = new Pengembalian();
+            pengembalian.setKodeAnggota(rs.getString(1));
+            pengembalian.setKodeBuku(rs.getString(2));
+            pengembalian.setTglPinjam(rs.getString(3));
+            pengembalian.setTglDikembalikan(rs.getString(4));
+            try{
+                pengembalian.setTerlambat(rs.getString(5));
+            }catch(Exception e){
+                System.out.println("Belum dikembalikan");
+            }
+            pengembalian.setDenda();
+            list.add(pengembalian);
+        }
+        return list;
+    }
+    
+        public List<Pengembalian> getAll(String kategori, String cari) throws Exception{
+        String sql = "SELECT "
+                + "anggota.kodeAnggota, buku.kodeBuku, "
+                + "peminjaman.tglPinjam, "
+                + "IFNULL(pengembalian.tglDikembalikan, ''), "
+                + "peminjaman.tglKembali "
+                + "FROM anggota RIGHT JOIN peminjaman USING(kodeanggota) "
+                + "LEFT JOIN buku USING(kodebuku) LEFT JOIN pengembalian "
+                + "ON peminjaman.kodeanggota = pengembalian.kodeanggota && "
+                + "peminjaman.kodebuku = pengembalian.kodebuku && "
+                + "peminjaman.tglpinjam = pengembalian.tglpinjam "
+                + "WHERE peminjaman."+kategori+" LIKE ?";
+
+        PreparedStatement ps = connection.prepareStatement(sql);
+        ps.setString(1, "%" + cari + "%");
         ResultSet rs = ps.executeQuery();
         Pengembalian pengembalian;
         List<Pengembalian> list = new ArrayList<>();
