@@ -12,6 +12,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -50,7 +52,11 @@ public class PengembalianController {
     public void clear(){
         try {
             //form.getTxtTglPinjam().setText("yyyy-mm-dd");
-            form.getTxtTglDikembalikan().setText("yyyy-mm-dd");
+//            form.getTxtTglDikembalikan().setText("yyyy-mm-dd");
+            LocalDate currentDate = LocalDate.now();
+            DateTimeFormatter mysqlDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            String tgl = currentDate.format(mysqlDateFormatter);
+            form.getTxtTglDikembalikan().setText(tgl);
             
             List<Anggota> listAnggota = anggotaDao.getAll();
             form.getCboAnggota().removeAllItems();
