@@ -122,7 +122,7 @@ public class FormPengembalian extends javax.swing.JFrame {
             }
         });
 
-        jButton5.setText("Exit");
+        jButton5.setText("Pinjam");
         jButton5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton5ActionPerformed(evt);
@@ -131,17 +131,17 @@ public class FormPengembalian extends javax.swing.JFrame {
 
         tblPengembalian.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "K.Anggota", "K.Buku", "Tgl Pinjam", "Tgl Kembali", "Tgl Dikembalikan", "Terlambat", "Denda"
+                "K.Anggota", "Nama", "K.Buku", "Tgl Pinjam", "Tgl Kembali", "Tgl Dikembalikan", "Terlambat", "Denda"
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
@@ -292,9 +292,11 @@ public class FormPengembalian extends javax.swing.JFrame {
 
     private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
         // TODO add your handling code here:
-        int i = JOptionPane.showConfirmDialog(rootPane,"Tutup form","Keluar?",
+        int i = JOptionPane.showConfirmDialog(rootPane,"Buat peminjaman baru?","Keluar?",
                 JOptionPane.YES_NO_OPTION);
         if(i == 0){
+            FormPeminjaman pinjam = new FormPeminjaman();
+            pinjam.setVisible(true);
             this.dispose();
         }
     }//GEN-LAST:event_jButton5ActionPerformed

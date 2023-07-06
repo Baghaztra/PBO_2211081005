@@ -124,9 +124,21 @@ public class PengembalianDaoImpl implements PengembalianDao{
         return list;
     }
     
-        public List<Pengembalian> getAll(String kategori, String cari) throws Exception{
-        String sql = "SELECT "
-                + "anggota.kodeAnggota, buku.kodeBuku, "
+    public List<Pengembalian> getAll(String kategori, String cari) throws Exception{
+        String sql = "";
+        if(kategori.equals("namaAnggota"))
+            sql = "SELECT anggota.kodeAnggota, buku.kodeBuku, "
+                + "peminjaman.tglPinjam, "
+                + "IFNULL(pengembalian.tglDikembalikan, ''), "
+                + "peminjaman.tglKembali "
+                + "FROM anggota RIGHT JOIN peminjaman USING(kodeanggota) "
+                + "LEFT JOIN buku USING(kodebuku) LEFT JOIN pengembalian "
+                + "ON peminjaman.kodeanggota = pengembalian.kodeanggota && "
+                + "peminjaman.kodebuku = pengembalian.kodebuku && "
+                + "peminjaman.tglpinjam = pengembalian.tglpinjam "
+                + "WHERE anggota."+kategori+" LIKE ?";
+        else
+            sql = "SELECT anggota.kodeAnggota, buku.kodeBuku, "
                 + "peminjaman.tglPinjam, "
                 + "IFNULL(pengembalian.tglDikembalikan, ''), "
                 + "peminjaman.tglKembali "
@@ -136,7 +148,7 @@ public class PengembalianDaoImpl implements PengembalianDao{
                 + "peminjaman.kodebuku = pengembalian.kodebuku && "
                 + "peminjaman.tglpinjam = pengembalian.tglpinjam "
                 + "WHERE peminjaman."+kategori+" LIKE ?";
-
+            
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, "%" + cari + "%");
         ResultSet rs = ps.executeQuery();

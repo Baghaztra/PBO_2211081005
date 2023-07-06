@@ -80,8 +80,9 @@ public class PengembalianController {
             form.getCboBuku().setSelectedIndex(0);
             
             form.getCboPilih().removeAllItems();
-            form.getCboPilih().addItem("kodeBuku");
+            form.getCboPilih().addItem("namaAnggota");
             form.getCboPilih().addItem("kodeAnggota");
+            form.getCboPilih().addItem("kodeBuku");
             form.getCboPilih().setSelectedIndex(0);
             
             form.getTxtCari().setText("");
@@ -93,9 +94,9 @@ public class PengembalianController {
     public void get(){
         try {
             String kodeA = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 0).toString();
-            String kodeB = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 1).toString();
-            String tglPi = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 2).toString();
-            String tglDk = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 4).toString();
+            String kodeB = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 2).toString();
+            String tglPi = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 3).toString();
+            String tglDk = form.getTblPengembalian().getValueAt(form.getTblPengembalian().getSelectedRow(), 5).toString();
             try{
                 pengembalian = pengembalianDao.getPengembalian(kodeA,kodeB,tglPi,tglDk);
                 form.getCboAnggota().setSelectedItem(pengembalian.getKodeAnggota());
@@ -183,7 +184,7 @@ public class PengembalianController {
                 if(pengembalian.getTglDikembalikan().equals("Belum dikembalikan")){
                     data = new Object[]{
                         anggota.getKodeAnggota(),
-    //                    anggota.getNamaAnggota(),
+                        anggota.getNamaAnggota(),
                         buku.getKodeBuku(),
     //                    buku.getJudulBuku(),
                         peminjaman.getTglPinjam(),
@@ -195,7 +196,7 @@ public class PengembalianController {
                 }else{
                     data = new Object[]{
                         anggota.getKodeAnggota(),
-    //                    anggota.getNamaAnggota(),
+                        anggota.getNamaAnggota(),
                         buku.getKodeBuku(),
     //                    buku.getJudulBuku(),
                         peminjaman.getTglPinjam(),
